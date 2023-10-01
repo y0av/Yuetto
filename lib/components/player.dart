@@ -5,19 +5,36 @@ import 'package:pinball/game.dart';
 enum Direction { none, left, right }
 
 class Player extends PositionComponent with HasGameRef<PinballGame> {
-  static final _paint = Paint()..color = Colors.purple;
-  static double delta = 0.1;
+  static final _paintWhite = Paint()
+    ..color = Colors.white60
+    ..style = PaintingStyle.stroke;
+  static final _paint1 = Paint()..color = Colors.purple;
+  static final _paint2 = Paint()..color = Colors.tealAccent;
+  static const double _radius = 1;
+  static const Offset _offset = Offset(10, 0);
+  static double delta = 0.04;
   Direction movement = Direction.none;
+
+  final CameraComponent? cameraComponent;
+
+  Player({this.cameraComponent})
+      : super(
+          //size: Vector2(10, 10),
+
+          anchor: Anchor.center,
+        );
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
 
-    position = Vector2(0, 0);
-    width = 5;
+    double y = 30; //TODO some game.size.y;
+    //print('size: ${game.size.y} y: $y');
+    position = Vector2(0, y);
+    /*width = 5;
     height = 10;
     anchor = Anchor.center;
-    angle = 0;
+    angle = 0;*/
   }
 
   @override
@@ -25,11 +42,14 @@ class Player extends PositionComponent with HasGameRef<PinballGame> {
     if (movement != Direction.none) {
       move(movement);
     }
+    //cameraComponent.viewfinder.position = position;
   }
 
   @override
   void render(Canvas canvas) {
-    canvas.drawRect(size.toRect(), _paint);
+    canvas.drawCircle(Offset.zero, _offset.dx, _paintWhite);
+    canvas.drawCircle(_offset, _radius, _paint1);
+    canvas.drawCircle(-_offset, _radius, _paint2);
   }
 
   void move(Direction direction) {

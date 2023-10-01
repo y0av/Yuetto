@@ -2,28 +2,28 @@ import 'package:flame/components.dart';
 import 'package:flame/extensions.dart';
 import 'package:flame/input.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
-import 'package:pinball/components/ball.dart';
+import 'package:pinball/components/obstacle_creator.dart';
 import 'package:pinball/components/player.dart';
 import 'package:pinball/components/star_background_creator.dart';
 import 'package:pinball/components/wall.dart';
 
-class PinballGame extends Forge2DGame with TapDetector {
+class PinballGame extends Forge2DGame with PanDetector, TapDetector {
   late Player player;
-  late final CameraComponent cameraComponent;
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
 
     //camera.viewport.add(FpsTextComponent());
-    cameraComponent = CameraComponent(world: world);
+    /*cameraComponent = CameraComponent(world: world);
     cameraComponent.viewfinder.anchor = Anchor.topLeft;
     add(cameraComponent);
     world.add(Ball());
-    world.addAll(createBoundaries());
+    world.addAll(createBoundaries());*/
     player = Player();
     world.add(player);
     add(StarBackGroundCreator());
+    add(ObstacleCreator());
   }
 
   List<Component> createBoundaries() {
@@ -42,23 +42,32 @@ class PinballGame extends Forge2DGame with TapDetector {
   }
 
   @override
-  void onTapDown(_info) {
-    if (_info.eventPosition.viewport.x > size.x / 2) {
+  void onPanEnd(info) {
+    player.stopMoving();
+  }
+
+  @override
+  void onPanCancel() {
+    player.stopMoving();
+  }
+
+  @override
+  void onPanUpdate(DragUpdateInfo info) {
+    spinPlayer(info.eventPosition.viewport.x, size.x);
+  }
+
+  @override
+  void onTapDown(TapDownInfo info) {
+    spinPlayer(info.eventPosition.viewport.x, size.x);
+  }
+
+  void spinPlayer(double x, double screenWidth) {
+    if (x > screenWidth / 2) {
       //debugPrint('right');
       player.startMoving(Direction.right);
     } else {
       //debugPrint('left');
       player.startMoving(Direction.left);
     }
-  }
-
-  @override
-  void onTapUp(TapUpInfo info) {
-    player.stopMoving();
-  }
-
-  @override
-  void onTapCancel() {
-    player.stopMoving();
   }
 }
