@@ -9,12 +9,18 @@ class ObstacleData {
 }
 
 class LevelData {
-  LevelData({required this.obstacles, this.speed = AppPrefs.baseSpeed});
+  LevelData(
+      {required this.obstacles,
+      this.speed = AppPrefs.baseSpeed,
+      this.period = 5});
   List<ObstacleData> obstacles;
   double speed;
+  double period;
+
+  // TODO: level music
 }
 
-LevelData levelData = LevelData(obstacles: [
+LevelData level1Data = LevelData(obstacles: [
   ObstacleData(type: ObstacleType.square, pos: ObstaclePosition.left),
   ObstacleData(type: ObstacleType.square, pos: ObstaclePosition.right),
   ObstacleData(type: ObstacleType.square, pos: ObstaclePosition.center),

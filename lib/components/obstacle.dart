@@ -1,7 +1,11 @@
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+import 'package:flame/particles.dart';
+import 'package:flutter/material.dart';
+import 'package:pinball/components/player.dart';
 import 'package:pinball/game.dart';
 import 'package:pinball/utils/app_preferences.dart';
+import 'package:pinball/utils/math_utils.dart';
 
 enum ObstacleType { square, bigRect, smallRect }
 
@@ -22,6 +26,13 @@ class Obstacle extends PositionComponent
       size: Vector2.all(AppPrefs.obstaclesHorizontalSize),
       anchor: Anchor.center,
     ));
+    final hitBox = RectangleHitbox.relative(
+      Vector2.zero(),
+      parentSize: size,
+      position: size / 2,
+      anchor: Anchor.center,
+    );
+    add(hitBox);
   }
 
   @override
@@ -53,5 +64,54 @@ class Obstacle extends PositionComponent
         break;
     }
     return Vector2(x, y);
+  }
+
+  @override
+  void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
+    super.onCollision(intersectionPoints, other);
+
+    if (other is Player) {
+      // If the other Collidable is a Player,
+      //
+      print('Player hit');
+      destroy();
+    }
+  }
+
+  void destroy() {
+    removeFromParent();
+    // Ask audio player to play enemy destroy effect.
+    /*game.addCommand(Command<AudioPlayerComponent>(action: (audioPlayer) {
+      audioPlayer.playSfx('laser1.ogg');
+    }));
+
+    // Before dying, register a command to increase
+    // player's score by 1.
+    final command = Command<Player>(action: (player) {
+      // Use the correct killPoint to increase player's score.
+      player.addToScore(enemyData.killPoint);
+    });
+    game.addCommand(command);*/
+
+    // Generate 20 white circle particles with random speed and acceleration,
+    // at current position of this enemy. Each particles lives for exactly
+    // 0.1 seconds and will get removed from the game world after that.
+    final particleComponent = ParticleSystemComponent(
+      particle: Particle.generate(
+        count: 20,
+        lifespan: 0.1,
+        generator: (i) => AcceleratedParticle(
+          acceleration: getRandomVector(),
+          speed: getRandomVector(),
+          position: position.clone(),
+          child: CircleParticle(
+            radius: 2,
+            paint: Paint()..color = Colors.white,
+          ),
+        ),
+      ),
+    );
+
+    game.world.add(particleComponent);
   }
 }

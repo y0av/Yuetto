@@ -1,12 +1,15 @@
+import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 import 'package:pinball/game.dart';
 
 enum Direction { none, left, right }
 
-class Player extends PositionComponent with HasGameRef<PinballGame> {
+class Player extends PositionComponent
+    with HasGameRef<PinballGame>, CollisionCallbacks {
   static final _paintWhite = Paint()
-    ..color = Colors.white60
+    ..color = Colors.white24
+    ..strokeWidth = 1
     ..style = PaintingStyle.stroke;
   static final _paint1 = Paint()..color = Colors.purple;
   static final _paint2 = Paint()..color = Colors.tealAccent;

@@ -6,8 +6,10 @@ import 'package:pinball/components/obstacle_creator.dart';
 import 'package:pinball/components/player.dart';
 import 'package:pinball/components/star_background_creator.dart';
 import 'package:pinball/components/wall.dart';
+import 'package:pinball/utils/levels_data.dart';
 
-class PinballGame extends Forge2DGame with PanDetector, TapDetector {
+class PinballGame extends Forge2DGame
+    with PanDetector, MultiTouchTapDetector, HasCollisionDetection {
   late Player player;
 
   @override
@@ -23,7 +25,7 @@ class PinballGame extends Forge2DGame with PanDetector, TapDetector {
     player = Player();
     world.add(player);
     add(StarBackGroundCreator());
-    add(ObstacleCreator());
+    add(ObstacleCreator(levelData: level1Data));
   }
 
   List<Component> createBoundaries() {
@@ -57,7 +59,7 @@ class PinballGame extends Forge2DGame with PanDetector, TapDetector {
   }
 
   @override
-  void onTapDown(TapDownInfo info) {
+  void onTapDown(i, info) {
     spinPlayer(info.eventPosition.viewport.x, size.x);
   }
 

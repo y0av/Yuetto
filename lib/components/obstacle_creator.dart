@@ -6,14 +6,16 @@ import 'package:pinball/utils/levels_data.dart';
 
 class ObstacleCreator extends TimerComponent with HasGameRef {
   final Random random = Random();
-  int obstacleIndex = 0;
+  final LevelData levelData;
+  int _obstacleIndex = 0;
 
-  ObstacleCreator() : super(period: 5, repeat: true);
+  ObstacleCreator({required this.levelData})
+      : super(period: levelData.period, repeat: true);
 
   @override
   void onTick() {
-    if (obstacleIndex < levelData.obstacles.length) {
-      ObstacleData obstacleData = levelData.obstacles[obstacleIndex];
+    if (_obstacleIndex < levelData.obstacles.length) {
+      ObstacleData obstacleData = levelData.obstacles[_obstacleIndex];
       game.add(
         Obstacle(
           pos: obstacleData.pos,
@@ -21,7 +23,7 @@ class ObstacleCreator extends TimerComponent with HasGameRef {
           speed: levelData.speed,
         ),
       );
-      obstacleIndex++;
+      _obstacleIndex++;
     }
   }
 }
