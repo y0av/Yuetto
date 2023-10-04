@@ -16,7 +16,7 @@ class ObstacleCreator extends TimerComponent with HasGameRef {
   void onTick() {
     if (_obstacleIndex < levelData.obstacles.length) {
       ObstacleData obstacleData = levelData.obstacles[_obstacleIndex];
-      game.add(
+      add(
         Obstacle(
           pos: obstacleData.pos,
           type: obstacleData.type,

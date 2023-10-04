@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:pinball/components/player.dart';
 import 'package:pinball/game.dart';
 import 'package:pinball/utils/app_preferences.dart';
+import 'package:pinball/utils/app_theme.dart';
 import 'package:pinball/utils/math_utils.dart';
 
 enum ObstacleType { square, bigRect, smallRect }
@@ -21,18 +22,20 @@ class Obstacle extends PositionComponent
 
   @override
   Future<void> onLoad() async {
-    add(RectangleComponent(
+/*    add(RectangleComponent(
+      paint: AppTheme.paintObstacle,
+      position: getStartingPosition(pos);,
+      size: Vector2.all(AppPrefs.obstaclesHorizontalSize),
+      anchor: Anchor.center,
+    ));*/
+    RectangleHitbox obstacle = RectangleHitbox(
       position: getStartingPosition(pos),
       size: Vector2.all(AppPrefs.obstaclesHorizontalSize),
       anchor: Anchor.center,
-    ));
-    final hitBox = RectangleHitbox.relative(
-      Vector2.zero(),
-      parentSize: size,
-      position: size / 2,
-      anchor: Anchor.center,
-    );
-    add(hitBox);
+    )
+      ..renderShape = true
+      ..paint = AppTheme.error;
+    add(obstacle);
   }
 
   @override
@@ -69,13 +72,22 @@ class Obstacle extends PositionComponent
   @override
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
     super.onCollision(intersectionPoints, other);
-
+    print(' hit');
     if (other is Player) {
       // If the other Collidable is a Player,
       //
       print('Player hit');
       destroy();
     }
+  }
+
+  @override
+  void onCollisionStart(
+    Set<Vector2> intersectionPoints,
+    PositionComponent other,
+  ) {
+    super.onCollisionStart(intersectionPoints, other);
+    print("onCollisionStart");
   }
 
   void destroy() {

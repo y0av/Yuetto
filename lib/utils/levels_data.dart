@@ -12,7 +12,7 @@ class LevelData {
   LevelData(
       {required this.obstacles,
       this.speed = AppPrefs.baseSpeed,
-      this.period = 5});
+      this.period = 3});
   List<ObstacleData> obstacles;
   double speed;
   double period;
@@ -37,4 +37,4 @@ LevelData level1Data = LevelData(obstacles: [
   ObstacleData(type: ObstacleType.square, pos: ObstaclePosition.right),
   ObstacleData(type: ObstacleType.square, pos: ObstaclePosition.center),
   ObstacleData(type: ObstacleType.square, pos: ObstaclePosition.left),
-]);
+], speed: 300, period: 1);

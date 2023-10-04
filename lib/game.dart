@@ -1,14 +1,14 @@
 import 'package:flame/components.dart';
 import 'package:flame/extensions.dart';
+import 'package:flame/game.dart';
 import 'package:flame/input.dart';
-import 'package:flame_forge2d/flame_forge2d.dart';
 import 'package:pinball/components/obstacle_creator.dart';
 import 'package:pinball/components/player.dart';
 import 'package:pinball/components/star_background_creator.dart';
 import 'package:pinball/components/wall.dart';
 import 'package:pinball/utils/levels_data.dart';
 
-class PinballGame extends Forge2DGame
+class PinballGame extends FlameGame
     with PanDetector, MultiTouchTapDetector, HasCollisionDetection {
   late Player player;
 
