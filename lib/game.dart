@@ -23,7 +23,7 @@ class PinballGame extends FlameGame
     world.add(Ball());
     world.addAll(createBoundaries());*/
     player = Player();
-    world.add(player);
+    add(player);
     add(StarBackGroundCreator());
     add(ObstacleCreator(levelData: level1Data));
   }

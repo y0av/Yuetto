@@ -10,19 +10,17 @@ class Player extends PositionComponent
     with HasGameRef<PinballGame>, CollisionCallbacks {
   Direction movement = Direction.none;
 
-  final CameraComponent? cameraComponent;
-
-  Player({this.cameraComponent});
+  Player();
 
   @override
   Future<void> onLoad() async {
-    double y = 20; //TODO some game.size.y;
-    //print('size: ${game.size.y} y: $y');
-    position = Vector2(0, y);
-    /*width = 5;
-    height = 10;
-    anchor = Anchor.center;
-    angle = 0;*/
+    position = Vector2(game.size.x / 2, game.size.y - 200);
+    CircleComponent bgCircle = CircleComponent(
+      position: Vector2.zero(),
+      radius: AppPrefs.horizontalOffset,
+      paint: AppTheme.paintCircleStroke,
+      anchor: Anchor.center,
+    );
     CircleHitbox rCircle = CircleHitbox(
       position: Vector2(AppPrefs.horizontalOffset, 0),
       radius: AppPrefs.radius,
@@ -37,7 +35,7 @@ class Player extends PositionComponent
     )
       ..renderShape = true
       ..paint = AppTheme.paint2;
-    addAll([lCircle, rCircle]);
+    addAll([bgCircle, lCircle, rCircle]);
   }
 
   @override
@@ -46,20 +44,7 @@ class Player extends PositionComponent
     if (movement != Direction.none) {
       move(movement);
     }
-    //cameraComponent.viewfinder.position = position;
   }
-
-/*  @override
-  void render(Canvas canvas) {
-    canvas.drawCircle(
-        Offset.zero, AppPrefs.offset.dx, AppTheme.paintCircleStroke);
-    canvas.drawCircle(
-        Offset(
-            AppPrefs.offset.dx - AppTheme.strokeWidth / 2, AppPrefs.offset.dy),
-        AppPrefs.radius,
-        AppTheme.paint1);
-    canvas.drawCircle(-AppPrefs.offset, AppPrefs.radius, AppTheme.paint2);
-  }*/
 
   void move(Direction direction) {
     angle +=

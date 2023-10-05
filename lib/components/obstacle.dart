@@ -22,12 +22,6 @@ class Obstacle extends PositionComponent
 
   @override
   Future<void> onLoad() async {
-/*    add(RectangleComponent(
-      paint: AppTheme.paintObstacle,
-      position: getStartingPosition(pos);,
-      size: Vector2.all(AppPrefs.obstaclesHorizontalSize),
-      anchor: Anchor.center,
-    ));*/
     RectangleHitbox obstacle = RectangleHitbox(
       position: getStartingPosition(pos),
       size: Vector2.all(AppPrefs.obstaclesHorizontalSize),
@@ -124,6 +118,6 @@ class Obstacle extends PositionComponent
       ),
     );
 
-    game.world.add(particleComponent);
+    game.add(particleComponent);
   }
 }
