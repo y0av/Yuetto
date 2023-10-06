@@ -26,8 +26,8 @@ class Player extends PositionComponent
     );
     addAll([
       bgCircle,
-      PlayerHand(handSide: HandSide.left),
-      PlayerHand(handSide: HandSide.right)
+      PlayerHand(handSide: HandSide.left, player: this),
+      PlayerHand(handSide: HandSide.right, player: this)
     ]);
   }
 
