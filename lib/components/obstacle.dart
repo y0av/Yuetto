@@ -1,8 +1,7 @@
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/particles.dart';
-import 'package:flutter/material.dart';
-import 'package:pinball/components/player.dart';
+import 'package:pinball/components/player_hand.dart';
 import 'package:pinball/game.dart';
 import 'package:pinball/utils/app_preferences.dart';
 import 'package:pinball/utils/app_theme.dart';
@@ -28,7 +27,7 @@ class Obstacle extends PositionComponent
       anchor: Anchor.center,
     )
       ..renderShape = true
-      ..paint = AppTheme.error;
+      ..paint = AppTheme.paint3;
     add(obstacle);
   }
 
@@ -63,28 +62,8 @@ class Obstacle extends PositionComponent
     return Vector2(x, y);
   }
 
-  @override
-  void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
-    super.onCollision(intersectionPoints, other);
-    print(' hit');
-    if (other is Player) {
-      // If the other Collidable is a Player,
-      //
-      print('Player hit');
-      destroy();
-    }
-  }
-
-  @override
-  void onCollisionStart(
-    Set<Vector2> intersectionPoints,
-    PositionComponent other,
-  ) {
-    super.onCollisionStart(intersectionPoints, other);
-    print("onCollisionStart");
-  }
-
-  void destroy() {
+  // Called from player
+  void destroy(Vector2 intersectionPoint, HandSide handSide) {
     removeFromParent();
     // Ask audio player to play enemy destroy effect.
     /*game.addCommand(Command<AudioPlayerComponent>(action: (audioPlayer) {
@@ -104,15 +83,16 @@ class Obstacle extends PositionComponent
     // 0.1 seconds and will get removed from the game world after that.
     final particleComponent = ParticleSystemComponent(
       particle: Particle.generate(
-        count: 20,
-        lifespan: 0.1,
+        count: 60,
+        lifespan: 2,
         generator: (i) => AcceleratedParticle(
           acceleration: getRandomVector(),
           speed: getRandomVector(),
-          position: position.clone(),
+          position: intersectionPoint.clone(),
           child: CircleParticle(
             radius: 2,
-            paint: Paint()..color = Colors.white,
+            paint:
+                (handSide == HandSide.left) ? AppTheme.paint1 : AppTheme.paint2,
           ),
         ),
       ),

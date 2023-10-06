@@ -1,5 +1,7 @@
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+import 'package:pinball/components/obstacle.dart';
+import 'package:pinball/components/player_hand.dart';
 import 'package:pinball/game.dart';
 import 'package:pinball/utils/app_preferences.dart';
 import 'package:pinball/utils/app_theme.dart';
@@ -15,27 +17,18 @@ class Player extends PositionComponent
   @override
   Future<void> onLoad() async {
     position = Vector2(game.size.x / 2, game.size.y - 200);
+
     CircleComponent bgCircle = CircleComponent(
       position: Vector2.zero(),
       radius: AppPrefs.horizontalOffset,
       paint: AppTheme.paintCircleStroke,
       anchor: Anchor.center,
     );
-    CircleHitbox rCircle = CircleHitbox(
-      position: Vector2(AppPrefs.horizontalOffset, 0),
-      radius: AppPrefs.radius,
-      anchor: Anchor.center,
-    )
-      ..renderShape = true
-      ..paint = AppTheme.error;
-    CircleHitbox lCircle = CircleHitbox(
-      position: Vector2(-AppPrefs.horizontalOffset, 0),
-      radius: AppPrefs.radius,
-      anchor: Anchor.center,
-    )
-      ..renderShape = true
-      ..paint = AppTheme.paint2;
-    addAll([bgCircle, lCircle, rCircle]);
+    addAll([
+      bgCircle,
+      PlayerHand(handSide: HandSide.left),
+      PlayerHand(handSide: HandSide.right)
+    ]);
   }
 
   @override
@@ -59,9 +52,14 @@ class Player extends PositionComponent
     movement = Direction.none;
   }
 
-  @override
-  void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
+  void gotHit(Set<Vector2> intersectionPoints, PositionComponent other,
+      HandSide handSide) {
+    // currently not needed but it seems like good practice
     super.onCollision(intersectionPoints, other);
-    print(' in player hit');
+    if (other is Obstacle) {
+      // If the other Collidable is a Obstacle,
+      print('Player hit $handSide');
+      other.destroy(intersectionPoints.first, handSide);
+    }
   }
 }

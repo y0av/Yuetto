@@ -19,7 +19,7 @@ class AppTheme {
     ..strokeWidth = strokeWidth
     ..style = PaintingStyle.stroke;
   static final Paint paint1 = Paint()..color = Colors.purple;
-  static final Paint paint2 = Paint()..color = Colors.tealAccent;
-
+  static final Paint paint2 = Paint()..color = Colors.lightGreen;
+  static final Paint paint3 = Paint()..color = Colors.blueGrey;
   static final Paint error = Paint()..color = Colors.red;
 }
