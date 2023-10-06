@@ -11,21 +11,16 @@ import 'package:pinball/utils/levels_data.dart';
 class PinballGame extends FlameGame
     with PanDetector, MultiTouchTapDetector, HasCollisionDetection {
   late Player player;
+  bool isPaused = true;
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
+    openMenu();
+  }
 
-    //camera.viewport.add(FpsTextComponent());
-    /*cameraComponent = CameraComponent(world: world);
-    cameraComponent.viewfinder.anchor = Anchor.topLeft;
-    add(cameraComponent);
-    world.add(Ball());
-    world.addAll(createBoundaries());*/
-    player = Player();
-    add(player);
-    add(StarBackGroundCreator());
-    add(ObstacleCreator(levelData: level1Data));
+  void openMenu() {
+    overlays.add('menu');
   }
 
   List<Component> createBoundaries() {
@@ -71,5 +66,14 @@ class PinballGame extends FlameGame
       //debugPrint('left');
       player.startMoving(Direction.left);
     }
+  }
+
+  void startLevel() {
+    overlays.remove('menu');
+    isPaused = false;
+    player = Player();
+    add(player);
+    add(StarBackGroundCreator());
+    add(ObstacleCreator(levelData: level1Data));
   }
 }

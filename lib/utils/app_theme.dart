@@ -22,4 +22,5 @@ class AppTheme {
   static final Paint paint2 = Paint()..color = Colors.lightGreen;
   static final Paint paint3 = Paint()..color = Colors.blueGrey;
   static final Paint error = Paint()..color = Colors.red;
+  static const Color shadow = Colors.black12;
 }
