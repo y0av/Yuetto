@@ -4,9 +4,10 @@ import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
+import 'package:pinball/components/obstacle.dart';
 import 'package:pinball/components/player.dart';
-import 'package:pinball/utils/app_preferences.dart';
-import 'package:pinball/utils/app_theme.dart';
+import 'package:pinball/constants/app_preferences.dart';
+import 'package:pinball/constants/app_theme.dart';
 
 enum HandSide { left, right }
 
@@ -50,9 +51,14 @@ class PlayerHand extends PositionComponent with CollisionCallbacks {
   }
 
   @override
-  void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
-    super.onCollision(intersectionPoints, other);
-    (parent as Player).gotHit(intersectionPoints, other, handSide);
+  void onCollisionStart(
+      Set<Vector2> intersectionPoints, PositionComponent other) {
+    super.onCollisionStart(intersectionPoints, other);
+    //super.onCollision(intersectionPoints, other);
+    if (other is FallingComponent) {
+      print('Collision with ${other.runtimeType}');
+      (parent as Player).gotHit(intersectionPoints, other, handSide);
+    }
   }
 
   @override

@@ -1,9 +1,9 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart' hide Image, Gradient;
+import 'package:pinball/constants/app_theme.dart';
+import 'package:pinball/constants/levels_data.dart';
 import 'package:pinball/game.dart';
 import 'package:pinball/ui/menu_card.dart';
-import 'package:pinball/utils/app_theme.dart';
-import 'package:pinball/utils/levels_data.dart';
 
 class Menu extends StatelessWidget {
   const Menu(this.game, {super.key});

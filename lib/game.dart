@@ -4,8 +4,8 @@ import 'package:flame/game.dart';
 import 'package:flame/input.dart';
 import 'package:pinball/components/player.dart';
 import 'package:pinball/components/wall.dart';
+import 'package:pinball/constants/levels_data.dart';
 import 'package:pinball/managers/level_manager.dart';
-import 'package:pinball/utils/levels_data.dart';
 
 class PinballGame extends FlameGame
     with PanDetector, MultiTouchTapDetector, HasCollisionDetection {

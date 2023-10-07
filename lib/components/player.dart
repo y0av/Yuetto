@@ -2,9 +2,9 @@ import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:pinball/components/obstacle.dart';
 import 'package:pinball/components/player_hand.dart';
+import 'package:pinball/constants/app_preferences.dart';
+import 'package:pinball/constants/app_theme.dart';
 import 'package:pinball/game.dart';
-import 'package:pinball/utils/app_preferences.dart';
-import 'package:pinball/utils/app_theme.dart';
 
 enum Direction { none, left, right }
 
@@ -18,9 +18,6 @@ class Player extends PositionComponent
   Future<void> onLoad() async {
     position = Vector2(
         game.size.x / 2, game.size.y - AppPrefs.playerYOffsetFromBottom);
-    add(PlayerHand(handSide: HandSide.left, player: this));
-    add(PlayerHand(handSide: HandSide.right, player: this));
-
     CircleComponent bgCircle = CircleComponent(
       position: Vector2.zero(),
       radius: AppPrefs.horizontalOffset,
@@ -57,8 +54,8 @@ class Player extends PositionComponent
 
   void gotHit(Set<Vector2> intersectionPoints, PositionComponent other,
       HandSide handSide) {
-    // currently not needed but it seems like good practice
     super.onCollision(intersectionPoints, other);
+    // currently not needed but it seems like good practice
     if (other is FallingComponent) {
       // If the other Collidable is a Obstacle,
       print('Player hit $handSide');

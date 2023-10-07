@@ -2,8 +2,8 @@ import 'dart:math';
 
 import 'package:flame/components.dart';
 import 'package:pinball/components/obstacle.dart';
+import 'package:pinball/constants/levels_data.dart';
 import 'package:pinball/game.dart';
-import 'package:pinball/utils/levels_data.dart';
 
 class ObstacleCreator extends TimerComponent with HasGameRef<PinballGame> {
   final Random random = Random();

@@ -1,5 +1,5 @@
 import 'package:pinball/components/obstacle.dart';
-import 'package:pinball/utils/app_preferences.dart';
+import 'package:pinball/constants/app_preferences.dart';
 
 class LevelData {
   String levelName;

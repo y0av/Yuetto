@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart' hide Image, Gradient;
-import 'package:pinball/utils/app_theme.dart';
+import 'package:pinball/constants/app_theme.dart';
 
 class MenuCard extends StatelessWidget {
   const MenuCard({required this.children, super.key});

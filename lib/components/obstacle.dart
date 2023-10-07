@@ -2,9 +2,9 @@ import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/particles.dart';
 import 'package:pinball/components/player_hand.dart';
+import 'package:pinball/constants/app_preferences.dart';
+import 'package:pinball/constants/app_theme.dart';
 import 'package:pinball/game.dart';
-import 'package:pinball/utils/app_preferences.dart';
-import 'package:pinball/utils/app_theme.dart';
 import 'package:pinball/utils/math_utils.dart';
 
 enum ObstacleType { text, square, bigRect, smallRect }
@@ -19,7 +19,7 @@ class FallingComponent extends PositionComponent
       required this.speed,
       this.text = ''});
   //double startingX = 0;
-  final text;
+  final String text;
   final ObstacleType type;
   final ObstaclePosition pos;
   final double speed;
