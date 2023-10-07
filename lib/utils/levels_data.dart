@@ -68,3 +68,25 @@ LevelData level2Data = LevelData(
     ],
     speed: 300,
     period: 1);
+
+/*
+Moons of Saturn ordered by mass
+-------------------------------
+Titan
+Rhea
+Iapetus
+Dione
+Tethys
+Enceladus
+Mimas
+Phoebe
+Hyperion
+Janus
+Epimetheus
+Prometheus
+Helene
+Atlas
+Pan
+Daphnis
+...
+*/

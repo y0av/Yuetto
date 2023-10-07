@@ -10,7 +10,6 @@ import 'package:pinball/utils/levels_data.dart';
 class PinballGame extends FlameGame
     with PanDetector, MultiTouchTapDetector, HasCollisionDetection {
   late Player player;
-  bool isPaused = true;
   LevelManager levelManager = LevelManager();
 
   @override
@@ -71,7 +70,6 @@ class PinballGame extends FlameGame
 
   void startLevel(LevelData levelData) {
     overlays.remove('menu');
-    isPaused = false;
     player = Player();
     add(player);
     levelManager.startLevel(levelData);

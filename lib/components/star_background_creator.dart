@@ -2,10 +2,11 @@ import 'dart:math';
 
 import 'package:flame/components.dart';
 import 'package:flame/sprite.dart';
+import 'package:pinball/game.dart';
 
 import 'star_component.dart';
 
-class StarBackGroundCreator extends Component with HasGameRef {
+class StarBackGroundCreator extends Component with HasGameRef<PinballGame> {
   final gapSize = 12;
 
   late final SpriteSheet spriteSheet;

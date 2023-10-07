@@ -12,7 +12,7 @@ enum ObstacleType { text, square, bigRect, smallRect }
 enum ObstaclePosition { left, right, center }
 
 class FallingComponent extends PositionComponent
-    with HasGameReference<PinballGame>, CollisionCallbacks {
+    with HasGameRef<PinballGame>, CollisionCallbacks {
   FallingComponent(
       {required this.type,
       this.pos = ObstaclePosition.center,

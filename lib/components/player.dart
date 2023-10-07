@@ -16,7 +16,10 @@ class Player extends PositionComponent
 
   @override
   Future<void> onLoad() async {
-    position = Vector2(game.size.x / 2, game.size.y - 200);
+    position = Vector2(
+        game.size.x / 2, game.size.y - AppPrefs.playerYOffsetFromBottom);
+    add(PlayerHand(handSide: HandSide.left, player: this));
+    add(PlayerHand(handSide: HandSide.right, player: this));
 
     CircleComponent bgCircle = CircleComponent(
       position: Vector2.zero(),
@@ -60,6 +63,7 @@ class Player extends PositionComponent
       // If the other Collidable is a Obstacle,
       print('Player hit $handSide');
       other.destroy(intersectionPoints.first, handSide);
+      game.levelManager.gameOver();
     }
   }
 }
