@@ -3,6 +3,7 @@ import 'package:flutter/material.dart' hide Image, Gradient;
 import 'package:pinball/game.dart';
 import 'package:pinball/ui/menu_card.dart';
 import 'package:pinball/utils/app_theme.dart';
+import 'package:pinball/utils/levels_data.dart';
 
 class Menu extends StatelessWidget {
   const Menu(this.game, {super.key});
@@ -22,7 +23,7 @@ class Menu extends StatelessWidget {
                 MenuCard(
                   children: [
                     Text(
-                      'du game',
+                      'Yuetto game',
                       style: textTheme.displayLarge,
                     ),
                     Text(
@@ -33,7 +34,14 @@ class Menu extends StatelessWidget {
                     ElevatedButton(
                       child: const Text('Level 1'),
                       onPressed: () {
-                        game.startLevel();
+                        game.startLevel(level1Data);
+                      },
+                    ),
+                    const SizedBox(height: 10),
+                    ElevatedButton(
+                      child: const Text('Level 2'),
+                      onPressed: () {
+                        game.startLevel(level2Data);
                       },
                     ),
                     const SizedBox(height: 10),

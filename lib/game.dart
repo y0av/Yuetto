@@ -2,20 +2,21 @@ import 'package:flame/components.dart';
 import 'package:flame/extensions.dart';
 import 'package:flame/game.dart';
 import 'package:flame/input.dart';
-import 'package:pinball/components/obstacle_creator.dart';
 import 'package:pinball/components/player.dart';
-import 'package:pinball/components/star_background_creator.dart';
 import 'package:pinball/components/wall.dart';
+import 'package:pinball/managers/level_manager.dart';
 import 'package:pinball/utils/levels_data.dart';
 
 class PinballGame extends FlameGame
     with PanDetector, MultiTouchTapDetector, HasCollisionDetection {
   late Player player;
   bool isPaused = true;
+  LevelManager levelManager = LevelManager();
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
+    add(levelManager);
     openMenu();
   }
 
@@ -68,12 +69,11 @@ class PinballGame extends FlameGame
     }
   }
 
-  void startLevel() {
+  void startLevel(LevelData levelData) {
     overlays.remove('menu');
     isPaused = false;
     player = Player();
     add(player);
-    add(StarBackGroundCreator());
-    add(ObstacleCreator(levelData: level1Data));
+    levelManager.startLevel(levelData);
   }
 }

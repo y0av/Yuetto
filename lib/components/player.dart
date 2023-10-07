@@ -56,7 +56,7 @@ class Player extends PositionComponent
       HandSide handSide) {
     // currently not needed but it seems like good practice
     super.onCollision(intersectionPoints, other);
-    if (other is Obstacle) {
+    if (other is FallingComponent) {
       // If the other Collidable is a Obstacle,
       print('Player hit $handSide');
       other.destroy(intersectionPoints.first, handSide);

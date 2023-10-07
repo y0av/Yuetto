@@ -7,28 +7,50 @@ import 'package:pinball/utils/app_preferences.dart';
 import 'package:pinball/utils/app_theme.dart';
 import 'package:pinball/utils/math_utils.dart';
 
-enum ObstacleType { square, bigRect, smallRect }
+enum ObstacleType { text, square, bigRect, smallRect }
 
 enum ObstaclePosition { left, right, center }
 
-class Obstacle extends PositionComponent
+class FallingComponent extends PositionComponent
     with HasGameReference<PinballGame>, CollisionCallbacks {
-  Obstacle({required this.type, required this.pos, required this.speed});
+  FallingComponent(
+      {required this.type,
+      this.pos = ObstaclePosition.center,
+      required this.speed,
+      this.text = ''});
   //double startingX = 0;
+  final text;
   final ObstacleType type;
   final ObstaclePosition pos;
   final double speed;
 
   @override
   Future<void> onLoad() async {
-    RectangleHitbox obstacle = RectangleHitbox(
-      position: getStartingPosition(pos),
-      size: Vector2.all(AppPrefs.obstaclesHorizontalSize),
-      anchor: Anchor.center,
-    )
-      ..renderShape = true
-      ..paint = AppTheme.paint3;
-    add(obstacle);
+    dynamic component;
+    switch (type) {
+      case ObstacleType.text:
+        component = TextComponent(
+          position: getStartingPosition(pos),
+          text: text,
+          anchor: Anchor.center,
+        );
+        break;
+      case ObstacleType.square:
+        component = RectangleHitbox(
+          position: getStartingPosition(pos),
+          size: Vector2.all(AppPrefs.obstaclesHorizontalSize),
+          anchor: Anchor.center,
+        )
+          ..renderShape = true
+          ..paint = AppTheme.paint3;
+        break;
+      case ObstacleType.bigRect:
+      // TODO: Handle this case.
+      case ObstacleType.smallRect:
+      // TODO: Handle this case.
+    }
+
+    add(component);
   }
 
   @override
