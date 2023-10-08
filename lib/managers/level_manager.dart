@@ -8,12 +8,12 @@ import 'package:pinball/constants/app_preferences.dart';
 import 'package:pinball/constants/levels_data.dart';
 import 'package:pinball/constants/sentences.dart';
 import 'package:pinball/game.dart';
+import 'package:pinball/utils/string_utils.dart';
 
 class LevelManager extends Component with HasGameRef<PinballGame> {
   bool isPaused = true;
   late ObstacleCreator obstacleCreator;
   late LevelData currentLevelDate;
-
   void startLevel(LevelData levelData, {bool isReplay = false}) async {
     print('startLevel');
     isPaused = true;
@@ -25,7 +25,9 @@ class LevelManager extends Component with HasGameRef<PinballGame> {
         speed: AppPrefs.baseSpeed,
         text: (!isReplay)
             ? levelData.levelName
-            : deathSentences[Random().nextInt(deathSentences.length)]));
+            : insertNewline(
+                deathSentences[Random().nextInt(deathSentences.length)],
+                AppPrefs.sentenceCharOverflow)));
     obstacleCreator = ObstacleCreator(levelData: levelData);
     Future.delayed(const Duration(seconds: AppPrefs.levelStartDelaySec), () {
       game.add(obstacleCreator);

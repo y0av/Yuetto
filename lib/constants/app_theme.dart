@@ -1,3 +1,5 @@
+import 'package:flame/components.dart';
+import 'package:flame/palette.dart';
 import 'package:flutter/material.dart';
 
 class AppTheme {
@@ -23,4 +25,7 @@ class AppTheme {
   static final Paint paint3 = Paint()..color = Colors.blueGrey;
   static final Paint error = Paint()..color = Colors.red;
   static const Color shadow = Colors.black12;
+  static final TextStyle regularTextStyle =
+      TextStyle(fontSize: 16, color: BasicPalette.white.color);
+  static final TextPaint regularTextPaint = TextPaint(style: regularTextStyle);
 }

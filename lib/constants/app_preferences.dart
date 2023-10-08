@@ -5,7 +5,7 @@ class AppPrefs {
   static const double radius = 10;
   static const double delta = 0.06;
   static const int levelStartDelaySec = 6;
-  static const double playerYOffsetFromBottom = 200;
+  static const double playerYOffsetFromBottom = 150;
   static const int betweenPlaysDelaySec = 2;
-  static const int sentenceCharOverflow = 30;
+  static const int sentenceCharOverflow = 40;
 }
