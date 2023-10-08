@@ -29,7 +29,9 @@ class FallingComponent extends PositionComponent
     dynamic component;
     switch (type) {
       case ObstacleType.text:
-        component = TextComponent(
+        component = TextBoxComponent(
+          size: Vector2(game.size.y, game.size.x),
+          align: Anchor.center,
           position: getStartingPosition(pos),
           text: text,
           anchor: Anchor.center,

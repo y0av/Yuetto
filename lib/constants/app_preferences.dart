@@ -7,4 +7,5 @@ class AppPrefs {
   static const int levelStartDelaySec = 6;
   static const double playerYOffsetFromBottom = 200;
   static const int betweenPlaysDelaySec = 2;
+  static const int sentenceCharOverflow = 30;
 }
