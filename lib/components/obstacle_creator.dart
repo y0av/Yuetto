@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flame/components.dart';
-import 'package:pinball/components/obstacle.dart';
+import 'package:pinball/components/falling_component.dart';
 import 'package:pinball/constants/levels_data.dart';
 import 'package:pinball/game.dart';
 
@@ -12,7 +12,9 @@ class ObstacleCreator extends TimerComponent with HasGameRef<PinballGame> {
   List<FallingComponent> addedComponents = [];
 
   ObstacleCreator({required this.levelData})
-      : super(period: levelData.period, repeat: true);
+      : super(period: levelData.period, repeat: true) {
+    //print('ObstacleCreator ${levelData.obstacles[0].isHit}');
+  }
 
   @override
   void onTick() {
@@ -23,6 +25,7 @@ class ObstacleCreator extends TimerComponent with HasGameRef<PinballGame> {
           pos: obstacleData.pos,
           type: obstacleData.type,
           speed: levelData.speed,
+          obstacleRef: obstacleData,
         );
         add(fallingComponent);
         addedComponents.add(fallingComponent);

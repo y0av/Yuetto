@@ -1,4 +1,6 @@
-import 'package:pinball/components/obstacle.dart';
+import 'package:flame/components.dart';
+import 'package:pinball/components/falling_component.dart';
+import 'package:pinball/components/player_hand.dart';
 import 'package:pinball/constants/app_preferences.dart';
 
 class LevelData {
@@ -19,7 +21,16 @@ class ObstacleData {
   ObstacleData(
       {this.type = ObstacleType.square, this.pos = ObstaclePosition.center});
   ObstacleType type;
+
+  Vector2 obstacleSize = Vector2.all(AppPrefs.obstaclesHorizontalSize);
   ObstaclePosition pos;
+  List<HitData> hits = [];
+}
+
+class HitData {
+  HitData({required this.handSide, required this.hitLocalPos});
+  HandSide handSide;
+  Vector2 hitLocalPos;
 }
 
 LevelData level1Data = LevelData(

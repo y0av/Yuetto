@@ -4,6 +4,7 @@ import 'package:flame/particles.dart';
 import 'package:pinball/components/player_hand.dart';
 import 'package:pinball/constants/app_preferences.dart';
 import 'package:pinball/constants/app_theme.dart';
+import 'package:pinball/constants/levels_data.dart';
 import 'package:pinball/game.dart';
 import 'package:pinball/utils/math_utils.dart';
 
@@ -17,12 +18,14 @@ class FallingComponent extends PositionComponent
       {required this.type,
       this.pos = ObstaclePosition.center,
       required this.speed,
-      this.text = ''});
+      this.text = '',
+      this.obstacleRef});
   //double startingX = 0;
   final String text;
   final ObstacleType type;
   final ObstaclePosition pos;
   final double speed;
+  final ObstacleData? obstacleRef;
 
   @override
   Future<void> onLoad() async {
@@ -38,9 +41,10 @@ class FallingComponent extends PositionComponent
         );
         break;
       case ObstacleType.square:
+        //print('rect pos ${getStartingPosition(pos)}');
         component = RectangleHitbox(
           position: getStartingPosition(pos),
-          size: Vector2.all(AppPrefs.obstaclesHorizontalSize),
+          size: obstacleRef!.obstacleSize,
           anchor: Anchor.center,
         )
           ..renderShape = true
@@ -51,8 +55,26 @@ class FallingComponent extends PositionComponent
       case ObstacleType.smallRect:
       // TODO: Handle this case.
     }
-
     add(component);
+    if (obstacleRef != null) {
+      for (HitData hitData in obstacleRef!.hits) {
+        Vector2 hitPos = Vector2(
+            hitData.hitLocalPos.x,
+            //-obstacleRef!.obstacleSize.y / 2 -
+            -hitData.hitLocalPos.y +
+                //obstacleRef!.obstacleSize.y -
+                -3);
+        //print('hitPos: $hitPos');
+        CircleComponent splashTest = CircleComponent(
+          position: hitPos,
+          radius: 3,
+          paint: (hitData.handSide == HandSide.left)
+              ? AppTheme.paint1
+              : AppTheme.paint2,
+        );
+        add(splashTest);
+      }
+    }
   }
 
   @override
@@ -62,12 +84,6 @@ class FallingComponent extends PositionComponent
     if (y >= game.size.y + AppPrefs.obstaclesHorizontalSize * 2) {
       removeFromParent();
     }
-  }
-
-  void takeHit() {
-    //TODO splash graphic, lose and start over
-    //game.add(SplashComponent(position: position));
-    //game.increaseScore();
   }
 
   Vector2 getStartingPosition(ObstaclePosition pos) {
@@ -87,7 +103,12 @@ class FallingComponent extends PositionComponent
   }
 
   // Called from player
-  void destroy(Vector2 intersectionPoint, HandSide handSide) {
+  void takeHit(
+      Vector2 intersectionPoint, HandSide handSide, Vector2 hitLocalPos) {
+    if (obstacleRef != null) {
+      obstacleRef!.hits
+          .add(HitData(handSide: handSide, hitLocalPos: hitLocalPos));
+    }
     removeFromParent();
     // Ask audio player to play enemy destroy effect.
     /*game.addCommand(Command<AudioPlayerComponent>(action: (audioPlayer) {

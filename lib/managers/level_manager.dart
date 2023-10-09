@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flame/components.dart';
-import 'package:pinball/components/obstacle.dart';
+import 'package:pinball/components/falling_component.dart';
 import 'package:pinball/components/obstacle_creator.dart';
 import 'package:pinball/components/star_background_creator.dart';
 import 'package:pinball/constants/app_preferences.dart';

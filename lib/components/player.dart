@@ -1,6 +1,6 @@
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
-import 'package:pinball/components/obstacle.dart';
+import 'package:pinball/components/falling_component.dart';
 import 'package:pinball/components/player_hand.dart';
 import 'package:pinball/constants/app_preferences.dart';
 import 'package:pinball/constants/app_theme.dart';
@@ -57,9 +57,11 @@ class Player extends PositionComponent
     super.onCollision(intersectionPoints, other);
     // currently not needed but it seems like good practice
     if (other is FallingComponent) {
-      // If the other Collidable is a Obstacle,
-      print('Player hit $handSide');
-      other.destroy(intersectionPoints.first, handSide);
+      Vector2 hitLocalPos = Vector2(intersectionPoints.first.x,
+          other.position.y - intersectionPoints.first.y);
+      print(
+          'Player hit $handSide, ${intersectionPoints.first}, ${other.position}');
+      other.takeHit(intersectionPoints.first, handSide, hitLocalPos);
       game.levelManager.gameOver();
     }
   }

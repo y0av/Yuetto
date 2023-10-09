@@ -4,7 +4,7 @@ import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
-import 'package:pinball/components/obstacle.dart';
+import 'package:pinball/components/falling_component.dart';
 import 'package:pinball/components/player.dart';
 import 'package:pinball/constants/app_preferences.dart';
 import 'package:pinball/constants/app_theme.dart';
