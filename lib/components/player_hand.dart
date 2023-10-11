@@ -57,12 +57,15 @@ class PlayerHand extends PositionComponent with CollisionCallbacks {
     //super.onCollision(intersectionPoints, other);
     if (other is FallingComponent) {
       print('Collision with ${other.runtimeType}');
-      (parent as Player).gotHit(intersectionPoints, other, handSide);
+      (parent as Player)
+          .gotHit(intersectionPoints, other, handSide, this.position);
     }
   }
 
   @override
   void render(Canvas canvas) {
-    //print(player.angle);
+/*    if (handSide == HandSide.left) {
+      print(position.y);
+    }*/
   }
 }

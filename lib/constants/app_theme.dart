@@ -22,6 +22,8 @@ class AppTheme {
     ..style = PaintingStyle.stroke;
   static final Paint paint1 = Paint()..color = Colors.purple;
   static final Paint paint2 = Paint()..color = Colors.lightGreen;
+  static get paint1Splash => Paint()..color = paint1.color.withOpacity(0.5);
+  static get paint2Splash => Paint()..color = paint2.color.withOpacity(0.5);
   static final Paint paint3 = Paint()..color = Colors.blueGrey;
   static final Paint error = Paint()..color = Colors.red;
   static const Color shadow = Colors.black12;

@@ -40,8 +40,9 @@ class Player extends PositionComponent
   }
 
   void move(Direction direction) {
-    angle +=
-        ((direction == Direction.right) ? AppPrefs.delta : AppPrefs.delta * -1);
+    angle += ((direction == Direction.right)
+        ? AppPrefs.playerAngleSpeed
+        : AppPrefs.playerAngleSpeed * -1);
   }
 
   void startMoving(Direction direction) {
@@ -53,14 +54,16 @@ class Player extends PositionComponent
   }
 
   void gotHit(Set<Vector2> intersectionPoints, PositionComponent other,
-      HandSide handSide) {
+      HandSide handSide, Vector2 handPosition) {
     super.onCollision(intersectionPoints, other);
     // currently not needed but it seems like good practice
     if (other is FallingComponent) {
-      Vector2 hitLocalPos = Vector2(intersectionPoints.first.x,
+      Vector2 hitLocalPos = Vector2(
+          handPosition.x, //-
+          //AppPrefs.horizontalOffset,
           other.position.y - intersectionPoints.first.y);
       print(
-          'Player hit $handSide, ${intersectionPoints.first}, ${other.position}');
+          'Player hit $handSide, y diff: ${other.position.y - intersectionPoints.first.y}');
       other.takeHit(intersectionPoints.first, handSide, hitLocalPos);
       game.levelManager.gameOver();
     }

@@ -12,6 +12,16 @@ enum ObstacleType { text, square, bigRect, smallRect }
 
 enum ObstaclePosition { left, right, center }
 
+/*class _Rectangle extends CircleComponent {
+  _Rectangle()
+      : super(
+          //position: Vector2(200, 200),
+          radius: 50,
+          anchor: Anchor.center,
+          paint: AppTheme.paint2,
+        );
+}*/
+
 class FallingComponent extends PositionComponent
     with HasGameRef<PinballGame>, CollisionCallbacks {
   FallingComponent(
@@ -57,23 +67,33 @@ class FallingComponent extends PositionComponent
     }
     add(component);
     if (obstacleRef != null) {
+      List<CircleComponent> splashComponents = [];
       for (HitData hitData in obstacleRef!.hits) {
         Vector2 hitPos = Vector2(
-            hitData.hitLocalPos.x,
-            //-obstacleRef!.obstacleSize.y / 2 -
-            -hitData.hitLocalPos.y +
-                //obstacleRef!.obstacleSize.y -
-                -3);
-        //print('hitPos: $hitPos');
+            obstacleRef!.obstacleSize.x / 2 +
+                hitData.hitLocalPos.x -
+                getStartingPosition(pos).x +
+                game.size.x / 2,
+            // can be 3/2 * obstacleRef!.obstacleSize.y - hitData.hitLocalPos.y but that's harder to understand
+            obstacleRef!.obstacleSize.y -
+                (hitData.hitLocalPos.y - obstacleRef!.obstacleSize.y / 2));
+        // print('hit pos: $hitPos local: ${hitData.hitLocalPos}');
         CircleComponent splashTest = CircleComponent(
           position: hitPos,
-          radius: 3,
+          radius: AppPrefs.splashRadius,
           paint: (hitData.handSide == HandSide.left)
-              ? AppTheme.paint1
-              : AppTheme.paint2,
+              ? AppTheme.paint1Splash
+              : AppTheme.paint2Splash,
+          anchor: Anchor.center,
         );
-        add(splashTest);
+        splashComponents.add(splashTest);
       }
+      add(ClipComponent.rectangle(
+        position: getStartingPosition(pos),
+        size: obstacleRef!.obstacleSize,
+        anchor: Anchor.center,
+        children: splashComponents,
+      ));
     }
   }
 
