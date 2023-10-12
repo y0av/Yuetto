@@ -7,17 +7,20 @@ import 'package:pinball/components/star_background_creator.dart';
 import 'package:pinball/constants/app_preferences.dart';
 import 'package:pinball/constants/levels_data.dart';
 import 'package:pinball/constants/sentences.dart';
+import 'package:pinball/constants/sounds_data.dart';
 import 'package:pinball/game.dart';
+import 'package:pinball/managers/audio_manager.dart';
 import 'package:pinball/utils/string_utils.dart';
 
 class LevelManager extends Component with HasGameRef<PinballGame> {
   bool isPaused = true;
   late ObstacleCreator obstacleCreator;
   late LevelData currentLevelDate;
+  AudioManager audioManager = AudioManager();
   void startLevel(LevelData levelData, {bool isReplay = false}) async {
     print('startLevel');
-    isPaused = true;
     currentLevelDate = levelData;
+    audioManager.loadMusic(levelData.levelTrack.path);
     isPaused = false;
     if (!isReplay) game.add(StarBackGroundCreator());
     game.add(FallingComponent(
@@ -31,11 +34,13 @@ class LevelManager extends Component with HasGameRef<PinballGame> {
     obstacleCreator = ObstacleCreator(levelData: levelData);
     Future.delayed(const Duration(seconds: AppPrefs.levelStartDelaySec), () {
       game.add(obstacleCreator);
+      audioManager.playMusic();
     });
   }
 
   void gameOver() {
     isPaused = true;
+    audioManager.playSfx(popSfx);
     obstacleCreator.onGameOver();
     obstacleCreator.removeFromParent();
     Future.delayed(const Duration(seconds: AppPrefs.betweenPlaysDelaySec), () {

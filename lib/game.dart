@@ -1,9 +1,6 @@
-import 'package:flame/components.dart';
-import 'package:flame/extensions.dart';
+import 'package:flame/events.dart';
 import 'package:flame/game.dart';
-import 'package:flame/input.dart';
 import 'package:pinball/components/player.dart';
-import 'package:pinball/components/wall.dart';
 import 'package:pinball/constants/levels_data.dart';
 import 'package:pinball/managers/level_manager.dart';
 
@@ -23,21 +20,6 @@ class PinballGame extends FlameGame
     overlays.add('menu');
   }
 
-  List<Component> createBoundaries() {
-    final visibleRect = camera.visibleWorldRect;
-    final topLeft = visibleRect.topLeft.toVector2();
-    final topRight = visibleRect.topRight.toVector2();
-    final bottomRight = visibleRect.bottomRight.toVector2();
-    final bottomLeft = visibleRect.bottomLeft.toVector2();
-
-    return [
-      Wall(topLeft, topRight),
-      Wall(topRight, bottomRight),
-      Wall(bottomLeft, bottomRight),
-      Wall(topLeft, bottomLeft),
-    ];
-  }
-
   @override
   void onPanEnd(info) {
     player.stopMoving();
@@ -50,12 +32,12 @@ class PinballGame extends FlameGame
 
   @override
   void onPanUpdate(DragUpdateInfo info) {
-    spinPlayer(info.eventPosition.viewport.x, size.x);
+    spinPlayer(info.eventPosition.global.x, size.x);
   }
 
   @override
   void onTapDown(i, info) {
-    spinPlayer(info.eventPosition.viewport.x, size.x);
+    spinPlayer(info.eventPosition.global.x, size.x);
   }
 
   void spinPlayer(double x, double screenWidth) {

@@ -2,19 +2,21 @@ import 'package:flame/components.dart';
 import 'package:pinball/components/falling_component.dart';
 import 'package:pinball/components/player_hand.dart';
 import 'package:pinball/constants/app_preferences.dart';
+import 'package:pinball/constants/sounds_data.dart';
+import 'package:pinball/managers/audio_manager.dart';
 
 class LevelData {
   String levelName;
   List<ObstacleData> obstacles;
   double speed;
   double period;
+  Sound levelTrack;
   LevelData(
       {required this.obstacles,
       this.speed = AppPrefs.baseSpeed,
       this.period = 3,
-      this.levelName = ''});
-
-  // TODO: level music
+      this.levelName = '',
+      required this.levelTrack});
 }
 
 class ObstacleData {
@@ -70,7 +72,8 @@ LevelData level1Data = LevelData(
       ObstacleData(type: ObstacleType.square, pos: ObstaclePosition.left),
     ],
     speed: 300,
-    period: 1);
+    period: 1,
+    levelTrack: level1Track);
 
 LevelData level2Data = LevelData(
     levelName: 'Level 2: Rhea',
@@ -78,7 +81,8 @@ LevelData level2Data = LevelData(
       ObstacleData(type: ObstacleType.square, pos: ObstaclePosition.left),
     ],
     speed: 300,
-    period: 1);
+    period: 1,
+    levelTrack: level2Track);
 
 /*
 Moons of Saturn ordered by mass

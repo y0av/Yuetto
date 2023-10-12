@@ -62,8 +62,8 @@ class Player extends PositionComponent
           handPosition.x, //-
           //AppPrefs.horizontalOffset,
           other.position.y - intersectionPoints.first.y);
-      print(
-          'Player hit $handSide, y diff: ${other.position.y - intersectionPoints.first.y}');
+      /*print(
+          'Player hit $handSide, y diff: ${other.position.y - intersectionPoints.first.y}');*/
       other.takeHit(intersectionPoints.first, handSide, hitLocalPos);
       game.levelManager.gameOver();
     }
